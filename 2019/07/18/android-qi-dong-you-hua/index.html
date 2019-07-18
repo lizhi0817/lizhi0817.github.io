@@ -5,7 +5,8 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="APP启动优化, FreakBunny">
-    <meta name="description" content="一、App启动分类1.冷启动 COLD START在启动应用前，系统还没有任何APP的进程。比如设备开机后应用的第一次启动，系统杀死应用进程 (如：系统内存不够引发的 KILL 和 用户主动的 KILL) 后再次启动等方式。那么这种方式下，">
+    <meta name="description" content="一、App启动分类1.冷启动 COLD START当启动应用时，后台没有该应用的进程（常见如：进程被杀、首次启动等），这时系统会重新创建一个新的进程分配给该应用那么这种方式下，应用启动的时间最长的。
+2.热启动 WARM START相比温启">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -349,14 +350,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2.1k
+                        2.3k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        9 分
+                        10 分
                     </div>
                     
                 
@@ -372,9 +373,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、App启动分类"><a href="#一、App启动分类" class="headerlink" title="一、App启动分类"></a>一、App启动分类</h2><h3 id="1-冷启动-COLD-START"><a href="#1-冷启动-COLD-START" class="headerlink" title="1.冷启动 COLD START"></a>1.冷启动 COLD START</h3><p>在启动应用前，系统还没有任何APP的进程。比如设备开机后应用的第一次启动，系统杀死应用进程 (如：系统内存不够引发的 KILL 和 用户主动的 KILL) 后再次启动等方式。那么这种方式下，应用启动的时间最长的。</p>
-<h3 id="2-热启动-WARM-START"><a href="#2-热启动-WARM-START" class="headerlink" title="2.热启动 WARM START"></a>2.热启动 WARM START</h3><p>当应用中的 Activities 被销毁，但在内存中常驻时，应用的启动方式就会变为暖启动。相比冷启动，暖启动过程减少了对象初始化、UI的布局和渲染。启动时间更短。但启动时，系统依然会展示一个空白背景，直到第一个 Activity 的内容呈现为止。</p>
+                <h2 id="一、App启动分类"><a href="#一、App启动分类" class="headerlink" title="一、App启动分类"></a>一、App启动分类</h2><h3 id="1-冷启动-COLD-START"><a href="#1-冷启动-COLD-START" class="headerlink" title="1.冷启动 COLD START"></a>1.冷启动 COLD START</h3><p>当启动应用时，后台没有该应用的进程（常见如：进程被杀、首次启动等），这时系统会重新创建一个新的进程分配给该应用那么这种方式下，应用启动的时间最长的。</p>
+<h3 id="2-热启动-WARM-START"><a href="#2-热启动-WARM-START" class="headerlink" title="2.热启动 WARM START"></a>2.热启动 WARM START</h3><p>相比温启动，热启动时应用做的工作更少，启动时间更短。热启动产生的场景很多，常见如：用户使用返回键退出应用，然后马上又重新启动应用</p>
 <h3 id="3-温启动-LUKEWARM-START"><a href="#3-温启动-LUKEWARM-START" class="headerlink" title="3.温启动 LUKEWARM START"></a>3.温启动 LUKEWARM START</h3><p>App进程存在，当时Activity可能因为内存不足被回收。这时候启动App不需要重新创建进程，但是Activity的onCrate()方法得重新执行的。<br>举个例子：<br>打开游戏一直在玩，微信弹出一个聊天消息，切换到微信，聊了一会儿天后，过了一段时间之后再次回到游戏。这时候游戏的进程虽然存在，但是Activity很有可能已经被回收了，这时候外面就只需要重新加载Activity就可以了。</p>
+<hr>
+<p><strong>热启动</strong>和<strong>温启动</strong>因为会从已有的进程中来启动，不会再创建和初始化Application。</p>
+<p>平时我们讨论中基本都会将<strong>温启动</strong>和<strong>热启动</strong>合在一起统称为<strong>热启动</strong>，因为<strong>温启动</strong>与<strong>热启动</strong>差异很小，如果不是特别留意启动流程，那么在用户体验和感官上没有直接差异，但是在<code>Framework</code>层执行时是有一定差异的。本次优化点也是围绕冷启动和热启动来做，将温启动与热启动统称为热启动。</p>
+<p>另外有一点，从绝对时间上来看，app安装后的<strong>首次启动</strong>将会最耗时，因为首次启动会新建数据库，<code>sp</code>文件，各种缓存，配置等。</p>
 <h2 id="二、系统的启动"><a href="#二、系统的启动" class="headerlink" title="二、系统的启动"></a>二、系统的启动</h2><p>先给大家贴个图吧，大概了解一下。(有点儿丑，大概看一下就行)<br><img src="https://i.loli.net/2019/07/18/5d308139e40b597502.png" alt="系统启动.png"></p>
 <h3 id="1-系统初始化"><a href="#1-系统初始化" class="headerlink" title="1.系统初始化"></a>1.系统初始化</h3><p><code>源码为C++</code></p>
 <ul>
@@ -1054,7 +1059,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">2.2k</span>
+                <span class="white-color">2.3k</span>
             
 
             
