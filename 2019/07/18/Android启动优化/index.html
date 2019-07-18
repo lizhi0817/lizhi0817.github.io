@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="启动优化, FreakBunny">
-    <meta name="description" content="启动优化 | FreakBunny">
+    <meta name="keywords" content="APP启动优化, FreakBunny">
+    <meta name="description" content="一、App启动分类1.冷启动 COLD START在启动应用前，系统还没有任何APP的进程。比如设备开机后应用的第一次启动，系统杀死应用进程 (如：系统内存不够引发的 KILL 和 用户主动的 KILL) 后再次启动等方式。那么这种方式下，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>启动优化 | FreakBunny</title>
+    <title>APP启动优化 | FreakBunny</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -28,7 +28,7 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -197,13 +197,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/03.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s2.ax1x.com/2019/07/18/ZXCfXR.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        启动优化
+                        APP启动优化
                     </div>
                 </div>
             </div>
@@ -312,12 +312,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/性能优化/" target="_blank">
+                                <span class="chip bg-color">性能优化</span>
+                            </a>
+                        
+                            <a href="/tags/Android/" target="_blank">
+                                <span class="chip bg-color">Android</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Android/" class="post-category" target="_blank">
+                                Android
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -332,14 +349,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        0
+                        2.2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        9 分
                     </div>
                     
                 
@@ -355,7 +372,245 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="一、App启动分类"><a href="#一、App启动分类" class="headerlink" title="一、App启动分类"></a>一、App启动分类</h2><h3 id="1-冷启动-COLD-START"><a href="#1-冷启动-COLD-START" class="headerlink" title="1.冷启动 COLD START"></a>1.冷启动 COLD START</h3><p>在启动应用前，系统还没有任何APP的进程。比如设备开机后应用的第一次启动，系统杀死应用进程 (如：系统内存不够引发的 KILL 和 用户主动的 KILL) 后再次启动等方式。那么这种方式下，应用启动的时间最长的。</p>
+<h3 id="2-热启动-WARM-START"><a href="#2-热启动-WARM-START" class="headerlink" title="2.热启动 WARM START"></a>2.热启动 WARM START</h3><p>当应用中的 Activities 被销毁，但在内存中常驻时，应用的启动方式就会变为暖启动。相比冷启动，暖启动过程减少了对象初始化、UI的布局和渲染。启动时间更短。但启动时，系统依然会展示一个空白背景，直到第一个 Activity 的内容呈现为止。</p>
+<h3 id="3-温启动-LUKEWARM-START"><a href="#3-温启动-LUKEWARM-START" class="headerlink" title="3.温启动 LUKEWARM START"></a>3.温启动 LUKEWARM START</h3><p>App进程存在，当时Activity可能因为内存不足被回收。这时候启动App不需要重新创建进程，但是Activity的onCrate()方法得重新执行的。<br>举个例子：<br>打开游戏一直在玩，微信弹出一个聊天消息，切换到微信，聊了一会儿天后，过了一段时间之后再次回到游戏。这时候游戏的进程虽然存在，但是Activity很有可能已经被回收了，这时候外面就只需要重新加载Activity就可以了。</p>
+<h2 id="二、系统的启动"><a href="#二、系统的启动" class="headerlink" title="二、系统的启动"></a>二、系统的启动</h2><p>先给大家贴个图吧，大概了解一下。(有点儿丑，大概看一下就行)<br><img src="https://i.loli.net/2019/07/18/5d308139e40b597502.png" alt="系统启动.png"></p>
+<h3 id="1-系统初始化"><a href="#1-系统初始化" class="headerlink" title="1.系统初始化"></a>1.系统初始化</h3><p><code>源码为C++</code></p>
+<ul>
+<li><strong>BootLoader</strong>：负责拉起操作系统</li>
+<li><strong>Linux Kernel</strong>：做系统的各种设置，目录加载，网络配置….这里面有个比较重要的点就是，它通过init.rc这个文件，初始化后会启动名为<strong>init</strong>的一个进程，其中它的ID号为1。</li>
+<li><strong>init</strong>：开启一个孵化器(Zygote)&lt;别Google翻译,如果你不知道的话&gt;。</li>
+<li><strong>Zygote</strong>：它会孵化出和自己一样的对象，靠着它可以孵化出和它一样的进程，非常强大。它还可以创建JVM虚拟机，还有注册JNI的方法等等…</li>
+</ul>
+<p>　　在创建完虚拟机后，它还会打开<code>SystemServer</code>，并在这里面会完成打开<code>Binder线程池</code>，同时会打开<code>SystemServiceManager</code>，前者主要是用于远端进程之间的通讯，通过<code>SystemServer</code>和<code>SystemServiceManager</code>的合作，会启动我们在程序中用到的各种服务，比如：<code>ActivityManagerService(程序中所有的Activity)</code>、<code>WindowManagerService(窗口有关)</code>、<code>PackageManagerService(安装包)</code>、<code>CameraService(相机)</code>、<code>SensorService(传感器)</code>…..这种服务有很多，各位看官感兴趣的话可以Google一下。<br>　　其中，<code>ActivityManagerService</code>会启动一个叫做<code>Lanucher</code>的东西。接下来，我们就聊一下它的启动过程。</p>
+<h3 id="2-Lanucher"><a href="#2-Lanucher" class="headerlink" title="2.Lanucher"></a>2.Lanucher</h3><blockquote>
+<p>adb shell dumpsys activity activities</p>
+</blockquote>
+<p>通过上面这一行代码，我们可以查看当前运行的所有Activity的名字。<br><img src="https://i.loli.net/2019/07/18/5d30813a0522635526.png" alt="运行的activity.png"><br>各位看官可以看一下，这是其中一段正在运行名为<code>InCallActivity</code>的Activity。我们可以把正在运行的手机桌面当做一个Activity，为什么这么说呢，因为桌面上的这些图标也是按钮，我们开发的APP的UI上也是按钮，所以我们可以把桌面上的APP当做按钮来理解。<br>我们可以看一下源码</p>
+<pre><code>  * @param v
+     *            The view representing the clicked shortcut.
+     */
+    public void onClick(View v) {
+        // Make sure that rogue clicks don&#39;t get through while allapps is
+        // launching, or after the
+        // view has detached (it&#39;s possible for this to happen if the view is
+        // removed mid touch).
+        if (v.getWindowToken() == null) {
+            return;
+        }
+
+        if (!mWorkspace.isFinishedSwitchingState()) {
+            return;
+        }
+
+        Object tag = v.getTag();
+        if (tag instanceof ShortcutInfo) {
+            // 打开快捷方式对应的intent
+            final Intent intent = ((ShortcutInfo) tag).intent;
+            int[] pos = new int[2];
+            v.getLocationOnScreen(pos);
+            intent.setSourceBounds(new Rect(pos[0], pos[1], pos[0]
+                    + v.getWidth(), pos[1] + v.getHeight()));
+
+            boolean success = startActivitySafely(v, intent, tag);
+
+            if (success &amp;&amp; v instanceof BubbleTextView) {
+                mWaitingForResume = (BubbleTextView) v;
+                mWaitingForResume.setStayPressed(true);
+            }
+        } else if (tag instanceof FolderInfo) {
+            if (v instanceof FolderIcon) {
+                // 打开文件夹
+                FolderIcon fi = (FolderIcon) v;
+                handleFolderClick(fi);
+            }
+        } else if (v == mAllAppsButton) {
+            // 显示或者不显示“全部程序”界面
+            if (isAllAppsVisible()) {
+                showWorkspace(true);
+            } else {
+                onClickAllAppsButton(v);
+            }
+        }
+    }</code></pre><pre><code>boolean startActivitySafely(View v, Intent intent, Object tag) {
+        boolean success = false;
+        try {
+            success = startActivity(v, intent, tag);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.activity_not_found,
+                    Toast.LENGTH_SHORT).show();
+            Log.e(TAG, &quot;Unable to launch. tag=&quot; + tag + &quot; intent=&quot; + intent, e);
+        }
+        return success;
+    }</code></pre><pre><code>    boolean startActivity(View v, Intent intent, Object tag) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        try {
+            // Only launch using the new animation if the shortcut has not opted
+            // out (this is a
+            // private contract between launcher and may be ignored in the
+            // future).
+            boolean useLaunchAnimation = (v != null)
+                    &amp;&amp; !intent.hasExtra(INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION);
+            if (useLaunchAnimation) {
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v,
+                        0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+
+                startActivity(intent, opts.toBundle());
+            } else {
+                startActivity(intent);
+            }
+            return true;
+        } catch (SecurityException e) {
+            Toast.makeText(this, R.string.activity_not_found,
+                    Toast.LENGTH_SHORT).show();
+            Log.e(TAG,
+                    &quot;Launcher does not have the permission to launch &quot;
+                            + intent
+                            + &quot;. Make sure to create a MAIN intent-filter for the corresponding activity &quot;
+                            + &quot;or use the exported attribute for this activity. &quot;
+                            + &quot;tag=&quot; + tag + &quot; intent=&quot; + intent, e);
+        }
+        return false;
+    }
+</code></pre><p>当我们点击<code>onClick</code>这个方法的时候，就会把应用信息传到intent中，就是<code>((ShortcutInfo) tag).intent</code>这个<code>tag</code>。他就会把信息封装成一个intent，<code>startActivitySafely</code>这里就是启动是否成功，当我们再往里面点进去看的时候，就是进入第二个代码块中，然后再点击第二个代码块中的<code>startActivity</code>，我们就会进去到第三个代码块中。这个代码块和我们传统的开启Activity是不一样的，我们画个图继续分析下去。<br><img src="https://i.loli.net/2019/07/18/5d308139e42f846976.png" alt="具体做的事情.png"><br>这里红线表示的是它是通过<code>AMS(ActivityManagerService)</code>管理的。后面我们聊架构的时候，也会说这个东西，暂时先不说，因为这个比较复杂。各位看官也可以自己看一下源码，点击后，会进入Activity的<code>startActivity(Intent intent)</code>这个方法，所以我们这里是看不到<code>AMS</code>是如何处理的。这里<code>AMS</code>会开辟内存空间，内存开辟后，这里会通知<code>AMS</code>，这时<code>AMS</code>会有一个孵化器，通过<code>fork</code>的方式，开启一个叫做<code>SystemService</code>，它会开启ActivityThread，这里面是由一个<code>main</code>方法的。我们接下来看一下这个main方法。</p>
+<pre><code>public static void main(String[] args) {
+        Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;ActivityThreadMain&quot;);
+
+        // CloseGuard defaults to true and can be quite spammy.  We
+        // disable it here, but selectively enable it later (via
+        // StrictMode) on debug builds, but using DropBox, not logs.
+        CloseGuard.setEnabled(false);
+
+        Environment.initForCurrentUser();
+
+        // Set the reporter for event logging in libcore
+        EventLogger.setReporter(new EventLoggingReporter());
+
+        // Make sure TrustedCertificateStore looks in the right place for CA certificates
+        final File configDir = Environment.getUserConfigDirectory(UserHandle.myUserId());
+        TrustedCertificateStore.setDefaultUserDirectory(configDir);
+
+        Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;);
+
+        Looper.prepareMainLooper();
+
+        // Find the value for {@link #PROC_START_SEQ_IDENT} if provided on the command line.
+        // It will be in the format &quot;seq=114&quot;
+        long startSeq = 0;
+        if (args != null) {
+            for (int i = args.length - 1; i &gt;= 0; --i) {
+                if (args[i] != null &amp;&amp; args[i].startsWith(PROC_START_SEQ_IDENT)) {
+                    startSeq = Long.parseLong(
+                            args[i].substring(PROC_START_SEQ_IDENT.length()));
+                }
+            }
+        }
+        ActivityThread thread = new ActivityThread();
+        thread.attach(false, startSeq);
+
+        if (sMainThreadHandler == null) {
+            sMainThreadHandler = thread.getHandler();
+        }
+
+        if (false) {
+            Looper.myLooper().setMessageLogging(new
+                    LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));
+        }
+
+        // End of event ActivityThreadMain.
+        Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+        Looper.loop();
+
+        throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);
+    }
+
+    // ------------------ Regular JNI ------------------------</code></pre><p>这里最主要的是<code>ActivityThread thread = new ActivityThread()</code>，这里的意思就是我们每点一个图标他就会开启一个进程(APP)，我们可以看一下<code>thread.attach(false, startSeq)</code>，这个方法中做了什么。</p>
+<pre><code>private void attach(boolean system, long startSeq) {
+        sCurrentActivityThread = this;
+        mSystemThread = system;
+        if (!system) {
+            ViewRootImpl.addFirstDrawHandler(new Runnable() {
+                @Override
+                public void run() {
+                    ensureJitEnabled();
+                }
+            });
+            android.ddm.DdmHandleAppName.setAppName(&quot;&lt;pre-initialized&gt;&quot;,
+                                                    UserHandle.myUserId());
+            RuntimeInit.setApplicationObject(mAppThread.asBinder());
+            final IActivityManager mgr = ActivityManager.getService();
+            try {
+                mgr.attachApplication(mAppThread, startSeq);
+            } catch (RemoteException ex) {
+                throw ex.rethrowFromSystemServer();
+            }
+            // Watch for getting close to heap limit.
+            BinderInternal.addGcWatcher(new Runnable() {
+                @Override public void run() {
+                    if (!mSomeActivitiesChanged) {
+                        return;
+                    }
+                    Runtime runtime = Runtime.getRuntime();
+                    long dalvikMax = runtime.maxMemory();
+                    long dalvikUsed = runtime.totalMemory() - runtime.freeMemory();
+                    if (dalvikUsed &gt; ((3*dalvikMax)/4)) {
+                        if (DEBUG_MEMORY_TRIM) Slog.d(TAG, &quot;Dalvik max=&quot; + (dalvikMax/1024)
+                                + &quot; total=&quot; + (runtime.totalMemory()/1024)
+                                + &quot; used=&quot; + (dalvikUsed/1024));
+                        mSomeActivitiesChanged = false;
+                        try {
+                            mgr.releaseSomeActivities(mAppThread);
+                        } catch (RemoteException e) {
+                            throw e.rethrowFromSystemServer();
+                        }
+                    }
+                }
+            });
+        } else {
+            // Don&#39;t set application object here -- if the system crashes,
+            // we can&#39;t display an alert, we just want to die die die.
+            android.ddm.DdmHandleAppName.setAppName(&quot;system_process&quot;,
+                    UserHandle.myUserId());
+            try {
+                mInstrumentation = new Instrumentation();
+                mInstrumentation.basicInit(this);
+                ContextImpl context = ContextImpl.createAppContext(
+                        this, getSystemContext().mPackageInfo);
+                mInitialApplication = context.mPackageInfo.makeApplication(true, null);
+                mInitialApplication.onCreate();
+            } catch (Exception e) {
+                throw new RuntimeException(
+                        &quot;Unable to instantiate Application():&quot; + e.toString(), e);
+            }
+        }
+
+        // add dropbox logging to libcore
+        DropBox.setReporter(new DropBoxReporter());
+
+        ViewRootImpl.ConfigChangedCallback configChangedCallback
+                = (Configuration globalConfig) -&gt; {
+            synchronized (mResourcesManager) {
+                // We need to apply this change to the resources immediately, because upon returning
+                // the view hierarchy will be informed about it.
+                if (mResourcesManager.applyConfigurationToResourcesLocked(globalConfig,
+                        null /* compat */)) {
+                    updateLocaleListFromAppContext(mInitialApplication.getApplicationContext(),
+                            mResourcesManager.getConfiguration().getLocales());
+
+                    // This actually changed the resources! Tell everyone about it.
+                    if (mPendingConfiguration == null
+                            || mPendingConfiguration.isOtherSeqNewer(globalConfig)) {
+                        mPendingConfiguration = globalConfig;
+                        sendMessage(H.CONFIGURATION_CHANGED, globalConfig);
+                    }
+                }
+            }
+        };
+        ViewRootImpl.addConfigCallback(configChangedCallback);
+    }</code></pre><p>这个方法主要是用于绑定Application，其中有一个<code>mgr.attachApplication(mAppThread, startSeq)</code>，就是这个方法用于绑定Application。<code>context.mPackageInfo.makeApplication(true, null)</code>这里我们可以看到开始使用Application，它会把包信息一点一点传入。当我们点击前面的变量时，<code>Application mInitialApplication</code>会跳转到这里，大家看到这里应该也就明白了，这就是我们经常继承的Application。<br>所以说，我们优化的过程就是从<code>Application</code>的<code>onCreate()</code>方法到<code>Activity</code>的<code>onCreate</code>方法。下图则是表示当系统的事情完成之后，我们优化的地方。如果说大家想从系统层就开始优化，将来有时间我们可以 共同学习一下这一块。<br><img src="https://i.loli.net/2019/07/18/5d30813a055e185135.png" alt="优化位置.png"></p>
+
             </div>
             <hr/>
 
@@ -513,7 +768,7 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《启动优化》
+                    《APP启动优化》
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/18/Android启动优化/" property="cc:attributionName"
                rel="cc:attributionURL">
@@ -563,44 +818,6 @@
                 <a href="/2019/07/18/Android启动优化/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/03.png" class="responsive-img" alt="启动优化">
-                        
-                        <span class="card-title">启动优化</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-18
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-user fa-fw"></i>
-                            Lee
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/07/18/My-Gallery/">
-                    <div class="card-image">
-                        
                         <img src="https://s2.ax1x.com/2019/07/18/ZXCfXR.png" class="responsive-img" alt="APP启动优化">
                         
                         <span class="card-title">APP启动优化</span>
@@ -628,17 +845,55 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
-                    
-                    <a href="/tags/Android/" target="_blank">
-                        <span class="chip bg-color">Android</span>
-                    </a>
                     
                     <a href="/tags/性能优化/" target="_blank">
                         <span class="chip bg-color">性能优化</span>
                     </a>
                     
+                    <a href="/tags/Android/" target="_blank">
+                        <span class="chip bg-color">Android</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/07/17/hello-world/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Hello World">
+                        
+                        <span class="card-title">Hello World</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Lee
+                            
+                        </span>
+                    </div>
                 </div>
                 
             </div>
