@@ -350,14 +350,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2.3k
+                        3.5k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        10 分
+                        14 分
                     </div>
                     
                 
@@ -395,12 +395,15 @@
 <p>通过上面这一行代码，我们可以查看当前运行的所有Activity的名字。<br><img src="https://i.loli.net/2019/07/18/5d30813a0522635526.png" alt="运行的activity.png"><br>各位看官可以看一下，这是其中一段正在运行名为<code>InCallActivity</code>的Activity。我们可以把正在运行的手机桌面当做一个Activity，为什么这么说呢，因为桌面上的这些图标也是按钮，我们开发的APP的UI上也是按钮，所以我们可以把桌面上的APP当做按钮来理解。<br>我们可以看一下源码</p>
 <pre class=" language-java"><code class="language-java">  <span class="token operator">*</span> <span class="token annotation punctuation">@param</span> v
      <span class="token operator">*</span>            The view representing the clicked shortcut<span class="token punctuation">.</span>
+     <span class="token operator">*</span>            表示单击的快捷方式的视图。
      <span class="token operator">*</span><span class="token operator">/</span>
     <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onClick</span><span class="token punctuation">(</span>View v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">// Make sure that rogue clicks don't get through while allapps is</span>
         <span class="token comment" spellcheck="true">// launching, or after the</span>
         <span class="token comment" spellcheck="true">// view has detached (it's possible for this to happen if the view is</span>
         <span class="token comment" spellcheck="true">// removed mid touch).</span>
+        <span class="token comment" spellcheck="true">// 确保所有APP启动时，或者视图分离后，恶意点击不会通过</span>
+        <span class="token comment" spellcheck="true">// (如果在触摸过程中移除视图，则可能发生这种情况)</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span><span class="token function">getWindowToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token keyword">return</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
@@ -458,6 +461,8 @@
             <span class="token comment" spellcheck="true">// out (this is a</span>
             <span class="token comment" spellcheck="true">// private contract between launcher and may be ignored in the</span>
             <span class="token comment" spellcheck="true">// future).</span>
+            <span class="token comment" spellcheck="true">// 只有在快捷方式没有选择退出时才使用新动画启动</span>
+            <span class="token comment" spellcheck="true">// (这是启动程序之间私有的，以后可能会被忽略)</span>
             <span class="token keyword">boolean</span> useLaunchAnimation <span class="token operator">=</span> <span class="token punctuation">(</span>v <span class="token operator">!=</span> null<span class="token punctuation">)</span>
                     <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>intent<span class="token punctuation">.</span><span class="token function">hasExtra</span><span class="token punctuation">(</span>INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">if</span> <span class="token punctuation">(</span>useLaunchAnimation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -489,14 +494,18 @@
         <span class="token comment" spellcheck="true">// CloseGuard defaults to true and can be quite spammy.  We</span>
         <span class="token comment" spellcheck="true">// disable it here, but selectively enable it later (via</span>
         <span class="token comment" spellcheck="true">// StrictMode) on debug builds, but using DropBox, not logs.</span>
+        <span class="token comment" spellcheck="true">// closeguard默认为true，可能非常垃圾。这里禁用它，但以后</span>
+        <span class="token comment" spellcheck="true">//（通过strictmode）在调试版本上选择性地启用它，但使用Dropbox，而不是日志。</span>
         CloseGuard<span class="token punctuation">.</span><span class="token function">setEnabled</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         Environment<span class="token punctuation">.</span><span class="token function">initForCurrentUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         <span class="token comment" spellcheck="true">// Set the reporter for event logging in libcore</span>
+        <span class="token comment" spellcheck="true">// 在libcore中设置事件日志记录器</span>
         EventLogger<span class="token punctuation">.</span><span class="token function">setReporter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">EventLoggingReporter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         <span class="token comment" spellcheck="true">// Make sure TrustedCertificateStore looks in the right place for CA certificates</span>
+        <span class="token comment" spellcheck="true">// 确保TrustedCertificateStore查找CA证书的位置正确</span>
         <span class="token keyword">final</span> File configDir <span class="token operator">=</span> Environment<span class="token punctuation">.</span><span class="token function">getUserConfigDirectory</span><span class="token punctuation">(</span>UserHandle<span class="token punctuation">.</span><span class="token function">myUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         TrustedCertificateStore<span class="token punctuation">.</span><span class="token function">setDefaultUserDirectory</span><span class="token punctuation">(</span>configDir<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -504,8 +513,11 @@
 
         Looper<span class="token punctuation">.</span><span class="token function">prepareMainLooper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="token comment" spellcheck="true">// Find the value for {@link #PROC_START_SEQ_IDENT} if provided on the command line.</span>
+        <span class="token comment" spellcheck="true">// Find the value for {@link #PROC_START_SEQ_IDENT} </span>
+        <span class="token comment" spellcheck="true">// if provided on the command line.</span>
         <span class="token comment" spellcheck="true">// It will be in the format "seq=114"</span>
+        <span class="token comment" spellcheck="true">// 如果在命令行中提供了{@link #PROC_START_SEQ_IDENT}，请查找它的值。</span>
+        <span class="token comment" spellcheck="true">// 格式为“seq=114”</span>
         <span class="token keyword">long</span> startSeq <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span>args <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> args<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -528,6 +540,7 @@
         <span class="token punctuation">}</span>
 
         <span class="token comment" spellcheck="true">// End of event ActivityThreadMain.</span>
+        <span class="token comment" spellcheck="true">// 事件ActivityThreadMain的结束。</span>
         Trace<span class="token punctuation">.</span><span class="token function">traceEnd</span><span class="token punctuation">(</span>Trace<span class="token punctuation">.</span>TRACE_TAG_ACTIVITY_MANAGER<span class="token punctuation">)</span><span class="token punctuation">;</span>
         Looper<span class="token punctuation">.</span><span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -556,6 +569,7 @@
                 <span class="token keyword">throw</span> ex<span class="token punctuation">.</span><span class="token function">rethrowFromSystemServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
             <span class="token comment" spellcheck="true">// Watch for getting close to heap limit.</span>
+            <span class="token comment" spellcheck="true">// 注意是否接近堆限制。</span>
             BinderInternal<span class="token punctuation">.</span><span class="token function">addGcWatcher</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token annotation punctuation">@Override</span> <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>mSomeActivitiesChanged<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -565,7 +579,8 @@
                     <span class="token keyword">long</span> dalvikMax <span class="token operator">=</span> runtime<span class="token punctuation">.</span><span class="token function">maxMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                     <span class="token keyword">long</span> dalvikUsed <span class="token operator">=</span> runtime<span class="token punctuation">.</span><span class="token function">totalMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> runtime<span class="token punctuation">.</span><span class="token function">freeMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                     <span class="token keyword">if</span> <span class="token punctuation">(</span>dalvikUsed <span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token operator">*</span>dalvikMax<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                        <span class="token keyword">if</span> <span class="token punctuation">(</span>DEBUG_MEMORY_TRIM<span class="token punctuation">)</span> Slog<span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span>TAG<span class="token punctuation">,</span> <span class="token string">"Dalvik max="</span> <span class="token operator">+</span> <span class="token punctuation">(</span>dalvikMax<span class="token operator">/</span><span class="token number">1024</span><span class="token punctuation">)</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>DEBUG_MEMORY_TRIM<span class="token punctuation">)</span> Slog<span class="token punctuation">.</span><span class="token function">d</span>
+                        <span class="token punctuation">(</span>TAG<span class="token punctuation">,</span> <span class="token string">"Dalvik max="</span> <span class="token operator">+</span> <span class="token punctuation">(</span>dalvikMax<span class="token operator">/</span><span class="token number">1024</span><span class="token punctuation">)</span>
                                 <span class="token operator">+</span> <span class="token string">" total="</span> <span class="token operator">+</span> <span class="token punctuation">(</span>runtime<span class="token punctuation">.</span><span class="token function">totalMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">1024</span><span class="token punctuation">)</span>
                                 <span class="token operator">+</span> <span class="token string">" used="</span> <span class="token operator">+</span> <span class="token punctuation">(</span>dalvikUsed<span class="token operator">/</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                         mSomeActivitiesChanged <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
@@ -580,6 +595,8 @@
         <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
             <span class="token comment" spellcheck="true">// Don't set application object here -- if the system crashes,</span>
             <span class="token comment" spellcheck="true">// we can't display an alert, we just want to die die die.</span>
+            <span class="token comment" spellcheck="true">// 不要在这里设置应用程序对象——如果系统崩溃，</span>
+            <span class="token comment" spellcheck="true">// 我们不能显示警报，我们只想死，死，死。</span>
             android<span class="token punctuation">.</span>ddm<span class="token punctuation">.</span>DdmHandleAppName<span class="token punctuation">.</span><span class="token function">setAppName</span><span class="token punctuation">(</span><span class="token string">"system_process"</span><span class="token punctuation">,</span>
                     UserHandle<span class="token punctuation">.</span><span class="token function">myUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">try</span> <span class="token punctuation">{</span>
@@ -596,19 +613,23 @@
         <span class="token punctuation">}</span>
 
         <span class="token comment" spellcheck="true">// add dropbox logging to libcore</span>
+        <span class="token comment" spellcheck="true">// 将dropbox日志添加到libcore</span>
         DropBox<span class="token punctuation">.</span><span class="token function">setReporter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">DropBoxReporter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         ViewRootImpl<span class="token punctuation">.</span>ConfigChangedCallback configChangedCallback
                 <span class="token operator">=</span> <span class="token punctuation">(</span>Configuration globalConfig<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
             <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>mResourcesManager<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                <span class="token comment" spellcheck="true">// We need to apply this change to the resources immediately, because upon returning</span>
-                <span class="token comment" spellcheck="true">// the view hierarchy will be informed about it.</span>
+                <span class="token comment" spellcheck="true">// We need to apply this change to the resources immediately, </span>
+                <span class="token comment" spellcheck="true">// because upon returning the view hierarchy will be </span>
+                <span class="token comment" spellcheck="true">// informed about it.</span>
+                <span class="token comment" spellcheck="true">// 我们需要立即将此更改并应用于资源，在返回视图层次结构时，将通知它。</span>
                 <span class="token keyword">if</span> <span class="token punctuation">(</span>mResourcesManager<span class="token punctuation">.</span><span class="token function">applyConfigurationToResourcesLocked</span><span class="token punctuation">(</span>globalConfig<span class="token punctuation">,</span>
                         null <span class="token comment" spellcheck="true">/* compat */</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                     <span class="token function">updateLocaleListFromAppContext</span><span class="token punctuation">(</span>mInitialApplication<span class="token punctuation">.</span><span class="token function">getApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
                             mResourcesManager<span class="token punctuation">.</span><span class="token function">getConfiguration</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getLocales</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
                     <span class="token comment" spellcheck="true">// This actually changed the resources! Tell everyone about it.</span>
+                     <span class="token comment" spellcheck="true">// 这实际上改变了资源!把这件事告诉大家。</span>
                     <span class="token keyword">if</span> <span class="token punctuation">(</span>mPendingConfiguration <span class="token operator">==</span> null
                             <span class="token operator">||</span> mPendingConfiguration<span class="token punctuation">.</span><span class="token function">isOtherSeqNewer</span><span class="token punctuation">(</span>globalConfig<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                         mPendingConfiguration <span class="token operator">=</span> globalConfig<span class="token punctuation">;</span>
@@ -620,6 +641,41 @@
         ViewRootImpl<span class="token punctuation">.</span><span class="token function">addConfigCallback</span><span class="token punctuation">(</span>configChangedCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span></code></pre>
 <p>这个方法主要是用于绑定Application，其中有一个<code>mgr.attachApplication(mAppThread, startSeq)</code>，就是这个方法用于绑定Application。<code>context.mPackageInfo.makeApplication(true, null)</code>这里我们可以看到开始使用Application，它会把包信息一点一点传入。当我们点击前面的变量时，<code>Application mInitialApplication</code>会跳转到这里，大家看到这里应该也就明白了，这就是我们经常继承的Application。<br>所以说，我们优化的过程就是从<code>Application</code>的<code>onCreate()</code>方法到<code>Activity</code>的<code>onCreate</code>方法。下图则是表示当系统的事情完成之后，我们优化的地方。如果说大家想从系统层就开始优化，将来有时间我们可以 共同学习一下这一块。<br><img src="https://i.loli.net/2019/07/18/5d30813a055e185135.png" alt="优化位置.png"></p>
+<h2 id="三、黑白屏"><a href="#三、黑白屏" class="headerlink" title="三、黑白屏"></a>三、黑白屏</h2><h3 id="1-问题根源"><a href="#1-问题根源" class="headerlink" title="1.问题根源"></a>1.问题根源</h3><p>   在我们新建项目的时候，都会有这么一个问题。就是在values-&gt;styles.xml这个文件。APP默认的这个主题。如果我们不加以设修改，就会出现黑白屏。</p>
+<pre class=" language-css"><code class="language-css">&lt;resources>
+    &lt;!-- Base application theme<span class="token number">.</span> -->
+    &lt;style name=<span class="token string">"AppTheme"</span> parent=<span class="token string">"Theme.AppCompat.Light.DarkActionBar"</span>>
+        &lt;!-- Customize your theme here<span class="token number">.</span> -->
+        &lt;item name=<span class="token string">"colorPrimary"</span>>@color/colorPrimary&lt;/item>
+        &lt;item name=<span class="token string">"colorPrimaryDark"</span>>@color/colorPrimaryDark&lt;/item>
+        &lt;item name=<span class="token string">"colorAccent"</span>>@color/colorAccent&lt;/item>
+    &lt;/style>
+&lt;/resources></code></pre>
+<p>  就下来我们从两个方面来说优化的这个事情。</p>
+<h3 id="2-如何优化"><a href="#2-如何优化" class="headerlink" title="2.如何优化"></a>2.如何优化</h3><h4 id="1-伪优化"><a href="#1-伪优化" class="headerlink" title="1.伪优化"></a>1.伪优化</h4><p>  　　在用户的行为上做优化，实际上，这就是一种假的优化。通过各种方式，让用户结束。<br>  　　如果我们去除<code>parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;</code>这一块代码的话，这里就会出现启动后黑屏，如果写了则是白屏。如果手机性能特别好的话，可能看不出来。可以在<code>Application-&gt;onCreate()</code>到<code>Activity-&gt;onCreate()</code>之间加一个耗时操作。就可以看到。</p>
+<h4 id="处理方案（1）"><a href="#处理方案（1）" class="headerlink" title="处理方案（1）"></a>处理方案（1）</h4><p>　　我们可以给它添加一张背景图，点击<code>parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;</code>进入系统定义的<code>valuse.xml</code>，找到一个父类<code>name=&quot;Platform.AppCompat.Light&quot;</code>中定义了<code>&lt;item name=&quot;android:windowBackground&quot;&gt;@drawable/xx&lt;/item&gt;</code>用来控制黑白屏。有些小伙伴可能通过<code>&lt;item name=&quot;android:windowIsTranslucent&quot;&gt;true&lt;/item&gt;</code>把他设置为true，来修改这块。如果我们这么写的话，则会出现点击以后，会停留一段时间，然后再开启应用。这么写的话，还会占用内存。大家细心的话，也会发现QQ中也是这么写的，但是它的优化当然是更高级的咯。它是通过<code>&lt;item name=&quot;android:windowBackground&quot;&gt;@null&lt;/item&gt;</code><br>    <code>&lt;item name=&quot;android:windowDisablePreview&quot;&gt;true&lt;/item&gt;</code>来修改的。具体的意思就是去掉背景，然后去处预览功能。因为这类在加载的时候需要加载很多的信息，所以它就会通过这种方式来给自己的APP提供加载时间。如果，它检测到用户这里是有缓存的话，它就会直接拿缓存中的数据。反之，则会有启动页。</p>
+<h4 id="处理方案（2）"><a href="#处理方案（2）" class="headerlink" title="处理方案（2）"></a>处理方案（2）</h4><p>　　我们直接这么写的话，肯定是不行的。为什么呢？因为所有的<code>Activity</code>都是用这个主题了，继而都会出现启动页面的情况，所以，我们需要单独给它写一个主题，然后在<code>AndroidManifest.xml</code>中配置。只需要找到使用<code>LAUNCHER</code>的这个<code>Activity</code>，然后给它添加主题就可以了。</p>
+<h4 id="处理方案（3）"><a href="#处理方案（3）" class="headerlink" title="处理方案（3）"></a>处理方案（3）</h4><p>　　我们还可以通过做一些启动动画，或者说像<code>好好学习</code>这类APP的处理方式，就是在启动APP进入主页后，弹出一个<code>PopWindow</code>/<code>Dialog</code>，让用户同意<code>用户隐私政策概要</code>/<code>其他的一些东西，根据业务需求而定</code>。因为用户很少能做出反应，说弹出这个UI后，直接点击。这时，我们就可以在弹出这个页面后，加载主页面的UI。
+    　　
+　　</p>
+<h4 id="2-非伪优化"><a href="#2-非伪优化" class="headerlink" title="2.非伪优化"></a>2.非伪优化</h4><p>  直接优化执行程序的性能。</p>
+<ol>
+<li>如何查看从<code>Application-&gt;onCreate()</code>到<code>Activity-&gt;onCreate()</code>之间的优化？    <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">onCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ File file <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>Environment<span class="token punctuation">.</span><span class="token function">getExternalStorageDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"app1.trace"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ LogUtils<span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span><span class="token function">getAbsolutePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">//把分析结果存放在路径</span>
+ Debug<span class="token punctuation">.</span><span class="token function">startMethodTracing</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span><span class="token function">getAbsolutePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">//其他的一些初始化的东西    </span>
+ xxx<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ xx<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ xxxx<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">//结束的位置 停止</span>
+ Debug<span class="token punctuation">.</span><span class="token function">stopMethodTracing</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+　　我们添加完成后，就可以把<code>app1.trace</code>这个文件直接拖入到AS中，显示效果就是下图：<br><img src="https://i.bmp.ovh/imgs/2019/07/3785efb2cf95b49d.png" alt><br><img src="https://i.bmp.ovh/imgs/2019/07/91f76ffe8c174388.png" alt><br><img src="https://i.bmp.ovh/imgs/2019/07/d8a86b021194228e.png" alt><br>　　我们从这里边可以看到很多信息，比如初始化了哪些控件，初始化时间，每个初始化所占用时间的比例等等。</li>
+</ol>
 
             </div>
             <hr/>
@@ -978,7 +1034,7 @@
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             // headingsOffset: -205,
-            headingSelector: 'h2, h3, h4'
+            headingSelector: 'h2, h3, h4, h5'
         });
 
         // modify the toc link href to support Chinese.
@@ -990,7 +1046,7 @@
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
@@ -1059,7 +1115,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">2.3k</span>
+                <span class="white-color">3.6k</span>
             
 
             
