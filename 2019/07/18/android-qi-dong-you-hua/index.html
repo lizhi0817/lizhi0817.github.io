@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="APP启动优化, null">
+    <meta name="keywords" content="APP启动优化, 　">
     <meta name="description" content="一、App启动分类1.冷启动 COLD START当启动应用时，后台没有该应用的进程（常见如：首次启动等），这时系统会重新创建一个新的进程分配给该应用那么这种方式下，应用启动的时间最长的。
 2.热启动 WARM START相比温启动，热启动">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>APP启动优化 | null</title>
+    <title>APP启动优化 | 　</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -42,7 +42,7 @@
                     
                     <img src="/medias/logo.png" class="logo-img" alt="LOGO">
                     
-                    <span class="logo-span"></span>
+                    <span class="logo-span">　</span>
                 </a>
             </div>
             
@@ -117,7 +117,7 @@
         
         <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
-        <div class="logo-name"></div>
+        <div class="logo-name">　</div>
         <div class="logo-desc">
             
             Be the most handsome person
@@ -385,7 +385,7 @@
 <blockquote>
 <p>adb shell am start -W   packName/packName.ClassName</p>
 </blockquote>
-<p><code>ThisTime：</code>最后一个启动的Activity的启动耗时<br><code>TotalTime：</code>自己的所有Activity的启动耗时<br><code>WaitTime：</code> <code>ActivityManagerService</code>启动App的Activity时的总时间（包括当前Activity的onPause()和自己Activity的启动）<br>下图中，我们可以清晰的看到：<br><img src="https://b2.bmp.ovh/imgs/2019/07/23a30dc9f6b9be67.jpg" alt><br>如果是<strong>冷启动</strong>，则会在<code>System</code>中，把APP的信息加载到内存，然后这个时候再去通过<code>ActivityThread(下面会说到)</code>调到<code>Application</code>，再往后则会做各种各样的事情。这就是冷启动。<br>如果是<strong>热启动</strong>，则App的信息就已经在内存中存在了，就不要调用那些一大堆的东西了，直接启动<code>Activity</code>了。</p>
+<p><code>ThisTime：</code>最后一个启动的Activity的启动耗时<br><code>TotalTime：</code>自己的所有Activity的启动耗时<br><code>WaitTime：</code> <code>ActivityManagerService</code>启动App的Activity时的总时间（包括当前Activity的onPause()和自己Activity的启动）<br>下图中，我们可以清晰的看到：<br><img src="https://b2.bmp.ovh/imgs/2019/07/23a30dc9f6b9be67.jpg" alt="示意图"><br>如果是<strong>冷启动</strong>，则会在<code>System</code>中，把APP的信息加载到内存，然后这个时候再去通过<code>ActivityThread(下面会说到)</code>调到<code>Application</code>，再往后则会做各种各样的事情。这就是冷启动。<br>如果是<strong>热启动</strong>，则App的信息就已经在内存中存在了，就不要调用那些一大堆的东西了，直接启动<code>Activity</code>了。</p>
 <p>我们可以通过命令去查看后台进程：</p>
 <blockquote>
 <p>adb shell ps</p>
@@ -671,7 +671,7 @@
 <h4 id="处理方案（3）"><a href="#处理方案（3）" class="headerlink" title="处理方案（3）"></a>处理方案（3）</h4><p>　　我们还可以通过做一些启动动画，或者说像<code>好好学习</code>这类APP的处理方式，就是在启动APP进入主页后，弹出一个<code>PopWindow</code>/<code>Dialog</code>，让用户同意<code>用户隐私政策概要</code>/<code>其他的一些东西，根据业务需求而定</code>。因为用户很少能做出反应，说弹出这个UI后，直接点击。这时，我们就可以在弹出这个页面后，加载主页面的UI。
     　　
 　　</p>
-<h4 id="2-非伪优化"><a href="#2-非伪优化" class="headerlink" title="2.非伪优化"></a>2.非伪优化</h4><ol>
+<h4 id="2-非伪优化"><a href="#2-非伪优化" class="headerlink" title="2.非伪优化"></a>2.非伪优化</h4><h4 id="开启线程"><a href="#开启线程" class="headerlink" title="开启线程"></a>开启线程</h4><ol>
 <li>如何查看从<code>Application-&gt;onCreate()</code>到<code>Activity-&gt;onCreate()</code>之间的优化？    <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
 <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
  <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">onCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -689,7 +689,7 @@
 　　我们添加完成后，就可以把<code>app1.trace</code>这个文件从SD卡的目录下打开，显示效果就是下图：<br><img src="https://b2.bmp.ovh/imgs/2019/07/d5e8dbe93ec7def0.png" alt="示意图"><br>　　我们从这里边可以看到很多信息，比如初始化了哪些控件，初始化时间，每个初始化所占用时间的比例等等。如果我们想做优化的话，就要看我们写的这些方法，哪儿块是可以优化的。在我们使用第三方库的时候，如果这时候我们想优化这些第三方库的加载时长，就需要看它是否能优化，为什么这么说呢？请看下图：<br><img src="https://b2.bmp.ovh/imgs/2019/07/b6aacf987c170e02.png" alt="示意图"><br>从图中我们可以看到一些信息，其中我们开启一个<code>线程A</code>(绿色箭头所指向的框) ，这里面是我们其中一段初始化的方法，它的耗时是比较长的(假定)，假设在蓝线这个时间点内，我们的<code>Activity-&gt;onCreate()</code>这个方法中，需要用到<code>线程A</code>中的方法，那么这时候就会出现<code>NullPointerException</code>。<br>所以说我们需要注意三个点：</li>
 <li>里面的Api不能创建Handler</li>
 <li>不能有UI操作</li>
-<li>对异步要求不高<br><img src="https://b2.bmp.ovh/imgs/2019/07/23ba54356ef2d3b8.png" alt="示意图"><br>上图是我们优化后的效果，从中，还是可以看到加载时长从<code>3.146</code>缩减到<code>1.752</code>，说明我们优化的效果还是非常明显的。</li>
+<li>对异步要求不高<br><img src="https://b2.bmp.ovh/imgs/2019/07/23ba54356ef2d3b8.png" alt="示意图"><br>上图是我们优化后的效果，从中，还是可以看到加载时长从<code>3.146</code>缩减到<code>1.752</code>，说明我们优化的效果还是非常明显的。<h4 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h4></li>
 </ol>
 
             </div>
@@ -877,6 +877,28 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-07-18T09-25-00',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
 
     
 
@@ -1012,7 +1034,7 @@
 
         var url = document.location.href;
         newdiv.innerHTML += '<br />'
-            + '来源: <br />'
+            + '来源: 　<br />'
             + '作者: Lee<br />'
             + '链接: <a href="' + url + '">' + url + '</a><br />'
             + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
