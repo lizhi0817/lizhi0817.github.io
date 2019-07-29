@@ -163,7 +163,7 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient(to right,  #FF3300 0%, #3399FF 100%);
+    background-image: linear-gradient(to right,  #000000 0%, #000000 100%);
 }
 
 .text-color {
@@ -171,7 +171,7 @@ mark {
 }
 
 .white-color {
-    color: #fff;
+    color: #FFFFFF;
 }
 
 .progress-bar {
