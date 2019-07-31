@@ -350,7 +350,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        4.2k
+                        4.4k
                     </div>
                     
 
@@ -689,10 +689,10 @@
 　　我们添加完成后，就可以把<code>app1.trace</code>这个文件从SD卡的目录下打开，显示效果就是下图：<br><img src="https://b2.bmp.ovh/imgs/2019/07/d5e8dbe93ec7def0.png" alt="示意图"><br>　　我们从这里边可以看到很多信息，比如初始化了哪些控件，初始化时间，每个初始化所占用时间的比例等等。如果我们想做优化的话，就要看我们写的这些方法，哪儿块是可以优化的。在我们使用第三方库的时候，如果这时候我们想优化这些第三方库的加载时长，就需要看它是否能优化，为什么这么说呢？请看下图：<br><img src="https://b2.bmp.ovh/imgs/2019/07/b6aacf987c170e02.png" alt="示意图"><br>从图中我们可以看到一些信息，其中我们开启一个<code>线程A</code>(绿色箭头所指向的框) ，这里面是我们其中一段初始化的方法，它的耗时是比较长的(假定)，假设在蓝线这个时间点内，我们的<code>Activity-&gt;onCreate()</code>这个方法中，需要用到<code>线程A</code>中的方法，那么这时候就会出现<code>NullPointerException</code>。<br>所以说我们需要注意三个点：</li>
 <li>里面的Api不能创建Handler</li>
 <li>不能有UI操作</li>
-<li>对异步要求不高<br><img src="https://b2.bmp.ovh/imgs/2019/07/23ba54356ef2d3b8.png" alt="示意图"><br>上图是我们优化后的效果，从中，还是可以看到加载时长从<code>3.146</code>缩减到<code>1.752</code>，说明我们优化的效果还是非常明显的。<h4 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h4></li>
+<li>对异步要求不高<br><img src="https://b2.bmp.ovh/imgs/2019/07/23ba54356ef2d3b8.png" alt="示意图"><br>上图是我们优化后的效果，从中，还是可以看到加载时长从<code>3.146</code>缩减到<code>1.752</code>，说明我们优化的效果还是非常明显的。<h4 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h4>我们可以看一些主流的APP。<br>首先，它启动的时候，我们看到的是一个图片（也就是我们上面说的背景图），过渡完之后，会有一个3s的广告，之后就进入了主页。那我们就可以在3S的广告页中，做一些加载首页的UI界面的处理，就类似于电商首页的分页加载。我们就可以把这个分页加载运用在我们页面启动中。<br>实际实现起来比较麻烦，大家可以尝试一下，需要后台做一个保活，然后服务器要往这个地方发一个信息，之后这个进程再通知我们的URI去更新，更新的时候不是马上更新，而是先替换文件，下次打开的时候，我们看到的就是新的文件。</li>
 </ol>
 <hr>
-<p>修改时间：2019/7/26 18:52:26 </p>
+<p>文章结尾时间：2019/7/31 14:46:05 </p>
 
             </div>
             <hr/>
@@ -1154,7 +1154,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">4.3k</span>
+                <span class="white-color">4.5k</span>
             
 
             
