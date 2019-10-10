@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="数组反转, 　">
-    <meta name="description" content="实现一使用Collections.reverse()方法可以很简单实现，可读性比较高。
-public class ReverseString {
-    public static void main(String[] args) {
-
- ">
+    <meta name="keywords" content="老鼠死亡问题, 　">
+    <meta name="description" content="问题1000瓶药水，1瓶有毒，24小时毒发，多少只老鼠能试出来有毒？
+分析一二进制
+      最直接就是1000只老鼠，但是，这肯定不是最好的答案。如果每只多喝几瓶，我们想的就是它们每只到底喝多少？
+      老鼠只有两种状态：生/死，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@ public class ReverseString {
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>数组反转 | 　</title>
+    <title>老鼠死亡问题 | 　</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -232,7 +231,7 @@ public class ReverseString {
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        数组反转
+                        老鼠死亡问题
                     </div>
                 </div>
             </div>
@@ -367,14 +366,14 @@ public class ReverseString {
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-10
+                    2019-10-11
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        177
+                        391
                     </div>
                     
 
@@ -397,30 +396,41 @@ public class ReverseString {
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="实现一"><a href="#实现一" class="headerlink" title="实现一"></a>实现一</h2><p>使用<code>Collections.reverse()</code>方法可以很简单实现，可读性比较高。</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReverseString</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1000瓶药水，1瓶有毒，24小时毒发，多少只老鼠能试出来有毒？</p>
+<h2 id="分析一"><a href="#分析一" class="headerlink" title="分析一"></a>分析一</h2><pre><code>二进制
+      最直接就是1000只老鼠，但是，这肯定不是最好的答案。如果每只多喝几瓶，我们想的就是它们每只到底喝多少？
+      老鼠只有两种状态：生/死，也就是我们可以看成编码中的位(bit)，取 0/1。这里需要的老鼠有N个，可以看作有
+      2^N 种结果，如果让每种结果都对应到某瓶水有毒，那么也就可以在2^N瓶水中找到有毒的水。
 
-        String<span class="token punctuation">[</span><span class="token punctuation">]</span> s <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"h"</span><span class="token punctuation">,</span> <span class="token string">"e"</span><span class="token punctuation">,</span> <span class="token string">"l"</span><span class="token punctuation">,</span> <span class="token string">"l"</span><span class="token punctuation">,</span> <span class="token string">"o"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"-------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">//关键的地方只有这么一句话    asList：可以将一个变长参数或者数组转换成List</span>
-        Collections<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      如何实现？
+      第一只喝  第1——2^(N-1)瓶
+      第二只喝  第1——第2^(N-2)瓶  第2^(N-1)+1——第2^(N-1) + 2^(N-2)瓶
+      …………
+      依此类推
+      总共1000瓶水，所以最少需要1000只老鼠
 
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      也可以想象成用2进制来表示1000个数最少需要多少位。
 
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="实现二"><a href="#实现二" class="headerlink" title="实现二"></a>实现二</h2><p>下面代码中，迭代数组的一半，改变对称位置的元素。<br>我们使用了临时变量，确保在迭代过程中不丢失当前位置的值。</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">invertUsingFor</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> array<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> array<span class="token punctuation">.</span>length <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-       String temp <span class="token operator">=</span> array<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-       array<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> array<span class="token punctuation">[</span>array<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-       array<span class="token punctuation">[</span>array<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">-</span> i<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
-   <span class="token punctuation">}</span>
-       System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+      如果还是看不明白的话，我们可以这么看。
 
+
+      假设有8瓶水，3只老鼠
+
+      000 = 0
+      001 = 1
+      010 = 2
+      011 = 3
+      100 = 4
+      101 = 5
+      110 = 6
+      111 = 7
+
+      每位数表示一只老鼠，0-7表示8个瓶子。
+      将1，3，5，7号瓶子的药混合取样给鼠1吃
+      将2，3，6，7号瓶子的药混合取样给鼠2吃
+      …………
+      死鼠相应的位标为1，如鼠1死了，鼠2没死，鼠3死了，那么就是101 = 5号瓶子有毒。
+      N只老鼠的量程为2^N，1000只瓶子位于2^9 ~ 2^10，即10只老鼠可以测1000瓶水。</code></pre>
             </div>
             <hr/>
 
@@ -578,9 +588,9 @@ public class ReverseString {
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《数组反转》
+                    《老鼠死亡问题》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/10/10/mei-ri-suan-fa-ti-zhi-shu-zu-fan-zhuan/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/10/11/mei-ri-suan-fa-ti-zhi-lao-shu-si-wang-wen-ti/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Lee
             </a> 采用
@@ -620,9 +630,10 @@ public class ReverseString {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2019/10/11/mei-ri-suan-fa-ti-zhi-lao-shu-si-wang-wen-ti/">
                     <div class="card-image">
@@ -639,9 +650,9 @@ public class ReverseString {
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-10-11
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-10-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -654,6 +665,7 @@ public class ReverseString {
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -672,30 +684,30 @@ public class ReverseString {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/20/glide-tu-pian-kuang-jia/">
+                <a href="/2019/10/10/mei-ri-suan-fa-ti-zhi-shu-zu-fan-zhuan/">
                     <div class="card-image">
                         
-                        <img src="https://s2.ax1x.com/2019/07/18/ZXCfXR.png" class="responsive-img" alt="Glide图片框架">
+                        <img src="https://s2.ax1x.com/2019/07/18/ZXCfXR.png" class="responsive-img" alt="数组反转">
                         
-                        <span class="card-title">Glide图片框架</span>
+                        <span class="card-title">数组反转</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Glide图片框架分析
+                            数组反转
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-10-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Android/" class="post-category" target="_blank">
-                                    Android
+                            <a href="/categories/数据结构与算法/" class="post-category" target="_blank">
+                                    数据结构与算法
                                 </a>
                             
                             
@@ -705,12 +717,8 @@ public class ReverseString {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Android/" target="_blank">
-                        <span class="chip bg-color">Android</span>
-                    </a>
-                    
-                    <a href="/tags/图片框架/" target="_blank">
-                        <span class="chip bg-color">图片框架</span>
+                    <a href="/tags/算法/" target="_blank">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
                 </div>
